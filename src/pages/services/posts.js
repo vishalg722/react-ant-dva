@@ -1,4 +1,5 @@
 import request from '../../utils/request'
+
 const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
 export function fetch({ page }) {

@@ -20,17 +20,17 @@ function checkStatus(response) {
  */
 
 async function request(url, options) {
-  
-  if(options !== undefined) {
-    const data = options.body ?  options.body :  {};
-    
-  return await axios({
-    method:options.method,
-    url:url,
-    data :data
+
+  if (options !== undefined) {
+    const data = options.body ? options.body : {};
+
+    return await axios({
+      method: options.method,
+      url: url,
+      data: data
     })
-  }  
-  return  await axios(url,options);
+  }
+  return await axios(url, options);
 }
 
 export default request;

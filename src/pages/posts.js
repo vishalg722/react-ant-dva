@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'dva';
-import { Table, Button, Space, Row, Col, Card,Popconfirm,Alert } from 'antd';
+import { Table, Button, Space, Row, Col, Card, Popconfirm, Alert } from 'antd';
 import { Spin } from 'antd';
 import {
-  DeleteOutlined,EditFilled
+  DeleteOutlined, EditFilled
 } from '@ant-design/icons';
 import PostModal from './components/PostModal';
 import styles from './posts.css';
 
 
 
-function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
-  
+function Posts({ dispatch, list: dataSource, loading, error, successMsg }) {
+
   const columns = [
     {
       title: 'Id',
@@ -29,9 +29,9 @@ function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
       title: 'Action',
       render: (text, record) => (
         <Space size="middle">
-          <PostModal record={record} onOk={editHandler.bind(null, record.id)} modalTitle = "Edit Post">
-              <EditFilled />
-            </PostModal>
+          <PostModal record={record} onOk={editHandler.bind(null, record.id)} modalTitle="Edit Post">
+            <EditFilled />
+          </PostModal>
           <Popconfirm
             title="Confirm to delete?"
             onConfirm={deletePost.bind(null, record.id)}
@@ -42,11 +42,11 @@ function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
       ),
     },
   ];
-  
+
   const deletePost = (id) => {
     dispatch({
       type: 'posts/remove',
-      payload:id
+      payload: id
     });
   }
 
@@ -56,7 +56,7 @@ function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
       payload: values,
     });
   }
-  
+
   function editHandler(id, values) {
     dispatch({
       type: 'posts/patch',
@@ -69,14 +69,14 @@ function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
       type: 'posts/remove'
     });
   }, [])
-  
+
   return (
     <Row>
-      
-      { loading && <Spin className={styles.spinner} size="large" /> } 
+
+      { loading && <Spin className={styles.spinner} size="large" />}
       <Col span={16} push={4} className={styles.container}>
-        <PostModal record={{}} onOk={createHandler} modalTitle = "Create Post">
-          <Button size ="large" className = { styles.createBtn} type="primary">Create Post</Button>
+        <PostModal record={{}} onOk={createHandler} modalTitle="Create Post">
+          <Button size="large" className={styles.createBtn} type="primary">Create Post</Button>
         </PostModal>
         {/* { error && <Alert type="error" message={error} banner />
         } */}
@@ -94,7 +94,7 @@ function Posts({ dispatch, list: dataSource, loading , error,successMsg}) {
 
 function mapStateToProps(state) {
   console.log(state.posts)
-  const { list, total, page, error,successMsg } = state.posts;
+  const { list, total, page, error, successMsg } = state.posts;
   return {
     loading: state.loading.models.posts,
     list,
