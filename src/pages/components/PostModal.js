@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Row, Col, Form, Input, Button, Select, Modal } from 'antd';
+import { Row, Col, Form, Input, Button, Select, Modal,Alert } from 'antd';
 import { connect } from 'dva';
 
 const { Option } = Select;
@@ -18,7 +18,6 @@ const formItemLayout = {
 
 
 function PostModal(props) {
-    
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
 
@@ -33,12 +32,13 @@ function PostModal(props) {
 
     const okHandler = () => {
         const { onOk } = props;
-        props.form.validateFields((err, values) => {
-            if (!err) {
-                onOk(values);
-                hideModelHandler();
-            }
-        });
+        
+        // props.form.validateFields((err, values) => {
+        //     if (!err) {
+        //         onOk(values);
+        //         hideModelHandler();
+        //     }
+        // });
     };
 
 
@@ -53,7 +53,13 @@ function PostModal(props) {
             props.onOk(values);
             form.resetFields();
         }
-        hideModelHandler();
+        setTimeout(()=> {
+            hideModelHandler();
+            props.dispatch({
+                type: 'posts/hideMessage'
+              });
+        },3000)
+        
     };
 
     const handleChange = value => {
@@ -62,6 +68,7 @@ function PostModal(props) {
     
     return (
         <>
+        
         <span onClick={showModelHandler}>{props.children}</span>
         <Modal
             title= { props.modalTitle}
@@ -70,6 +77,10 @@ function PostModal(props) {
             onCancel={hideModelHandler}
             
         >
+        { props.error && <Alert type="error" message={props.error} banner />
+        }
+        { props.successMsg && <Alert type="success" message={props.successMsg} banner />
+        }
             <Row>
                 <Col span={16} push={4}>
                     <Form
@@ -127,10 +138,12 @@ function PostModal(props) {
 }
 
 function mapStateToProps(state) {
-    const { list, total, page } = state.posts;
+    const { list, total, page,error,successMsg } = state.posts;
     return {
       loading: state.loading.models.posts,
-      list
+      list,
+      error,
+      successMsg
     };
   }
   

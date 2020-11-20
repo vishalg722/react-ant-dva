@@ -14,7 +14,7 @@ export function remove(id) {
 export function patch(id, values) {
   return request(`${apiUrl}/${id}`, {
     method: 'PATCH',
-    body: JSON.stringify(values),
+    body: values
   });
 }
 
